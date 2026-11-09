@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>OG card — Agung Putra Pasaribu</title>
+  <style>
+    @font-face {
+      font-family: 'Press Start 2P';
+      src: url('fonts/press-start-2p.woff2') format('woff2');
+      font-weight: 400;
+      font-display: block;
+    }
+
+    @font-face {
+      font-family: 'Silkscreen';
+      src: url('fonts/silkscreen-400.woff2') format('woff2');
+      font-weight: 400;
+      font-display: block;
+    }
+
+    @font-face {
+      font-family: 'Silkscreen';
+      src: url('fonts/silkscreen-700.woff2') format('woff2');
+      font-weight: 700;
+      font-display: block;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      background-color: #0a0b16;
+      background-image:
+        radial-gradient(circle, rgba(255, 242, 200, 0.55) 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(65, 166, 246, 0.45) 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(127, 227, 160, 0.35) 1.5px, transparent 2px);
+      background-size: 190px 150px, 270px 230px, 330px 310px;
+      background-position: 24px 34px, 96px 118px, 168px 64px;
+      font-family: 'Silkscreen', ui-monospace, monospace;
+      color: #d9dcf2;
+    }
+
+    .card {
+      position: relative;
+      width: 1080px;
+      padding: 64px 72px;
+      background: #1d2140;
+      border: 4px solid #0a0b16;
+      box-shadow: 10px 10px 0 #0a0b16, inset 4px 4px 0 rgba(255, 255, 255, 0.1), inset -4px -4px 0 rgba(0, 0, 0, 0.35);
+    }
+
+    .kicker {
+      display: inline-block;
+      padding: 7px 11px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #0a0b16;
+      background: #f9c333;
+      border: 3px solid #0a0b16;
+      box-shadow: 3px 3px 0 #0a0b16;
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      margin: 0 0 26px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 40px;
+      line-height: 1.55;
+      color: #fff2c8;
+      text-shadow: 6px 6px 0 #0a0b16;
+    }
+
+    .role {
+      margin: 0 0 34px;
+      font-size: 25px;
+      line-height: 1.5;
+      color: #41a6f6;
+      font-weight: 700;
+    }
+
+    .tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .tech span {
+      padding: 8px 14px;
+      font-size: 17px;
+      color: #d9dcf2;
+      border: 3px solid #0a0b16;
+      background: #262b52;
+      box-shadow: 3px 3px 0 #0a0b16, inset 2px 2px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .url {
+      margin: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: #7fe3a0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <span class="kicker">PLAYER 1</span>
+    <h1>Agung Putra<br />Pasaribu</h1>
+    <p class="role">Full Stack Developer<br />Solution Architect</p>
+    <div class="tech">
+      <span>10+ years</span>
+      <span>Java</span>
+      <span>Go</span>
+      <span>PHP</span>
+      <span>Solution Architecture</span>
+    </div>
+    <p class="url">agungputrap.github.io</p>
+  </div>
+</body>
+
+</html>
