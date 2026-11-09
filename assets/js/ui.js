@@ -1,3 +1,5 @@
+import { createMusic } from './music.js';
+
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 const yearElement = document.getElementById('year');
@@ -61,6 +63,7 @@ function showBootScreen() {
 
 const soundToggle = document.getElementById('sound-toggle');
 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+const music = createMusic();
 
 let soundEnabled = (() => {
   try {
@@ -112,12 +115,14 @@ function blip(frequency, duration, delay = 0) {
 function unlockAudio() {
   if (audioUnlocked) return;
   audioUnlocked = true;
-  if (soundEnabled) ensureContext();
+  if (!soundEnabled) return;
+  const context = ensureContext();
+  if (context) music.start(context);
 }
 
 if (soundToggle) {
   const renderToggle = () => {
-    soundToggle.textContent = soundEnabled ? 'SOUND: ON' : 'SOUND: OFF';
+    soundToggle.textContent = soundEnabled ? 'AUDIO: ON' : 'AUDIO: OFF';
     soundToggle.setAttribute('aria-pressed', String(soundEnabled));
   };
 
@@ -131,8 +136,15 @@ if (soundToggle) {
       /* preference not persisted */
     }
     renderToggle();
-    unlockAudio();
-    blip(330, 0.08);
+
+    if (soundEnabled) {
+      audioUnlocked = true;
+      const context = ensureContext();
+      if (context) music.start(context);
+      blip(330, 0.08);
+    } else {
+      music.stop();
+    }
   });
 }
 
@@ -152,6 +164,14 @@ document.addEventListener('click', (event) => {
   unlockAudio();
   blip(660, 0.05);
   blip(990, 0.09, 0.05);
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    music.stop();
+  } else if (soundEnabled && audioUnlocked) {
+    music.start(audioContext);
+  }
 });
 
 showBootScreen();

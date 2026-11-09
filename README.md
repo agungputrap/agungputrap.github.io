@@ -12,7 +12,8 @@ Personal portfolio for Agung Putra Pasaribu — a 16-bit console–styled single
 ```
 index.html                 page content and metadata
 assets/css/retro.css       design tokens and components
-assets/js/ui.js            boot screen, sound toggle, footer year
+assets/js/ui.js            boot screen, audio toggle, footer year
+assets/js/music.js         procedural chiptune loop
 assets/js/starfield.js     three.js hero scene (lazy, optional)
 assets/js/vendor/          three.module.min.js + three.core.js
 assets/fonts/              Press Start 2P, Silkscreen, OFL license

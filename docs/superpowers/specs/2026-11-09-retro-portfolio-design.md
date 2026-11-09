@@ -42,6 +42,7 @@ assets/
   css/retro.css
   js/starfield.js
   js/ui.js
+  js/music.js
   js/vendor/three.module.min.js
   js/vendor/three.core.js
   fonts/press-start-2p.woff2
@@ -141,7 +142,7 @@ All components are plain classes in `retro.css`.
 Section order is unchanged from the current page.
 
 1. **Skip link** — first focusable element, visible on focus.
-2. **Top bar** — small fixed bar with `AP` mark and the sound toggle. Not sticky-animated.
+2. **Top bar** — small fixed bar with `AP` mark and the audio toggle. Not sticky-animated.
 3. **Hero**
    - Avatar in a bordered portrait panel with the `AP` initials plate beneath.
    - `h1` name (Press Start 2P), role in a `.badge--gold`, existing intro paragraph, three buttons (Email / GitHub / LinkedIn).
@@ -171,13 +172,25 @@ Section headings are real `h2` elements; the `01 ·` prefix is inside a `<span a
 
 ## 8. Sound
 
-- Synthesized with the Web Audio API. No audio files.
-- Sounds: `select` (square wave, ~660Hz, 40ms), `confirm` (two-note 660→990Hz, 90ms), `toggle` (330Hz, 30ms).
-- Master gain 0.04; no oscillators are created until the AudioContext exists.
-- **Default: enabled**, but the AudioContext is created only on the first user gesture (click or keypress), per browser autoplay policy. No sound can fire before that, including hover.
-- Connection points: button hover (`select`), button/link click (`confirm`), sound toggle (`toggle`).
-- A toggle button in the top bar shows `SOUND: ON` / `SOUND: OFF`, is a real `<button>` with `aria-pressed`, and persists the choice in `localStorage` under `ap.sound`.
-- Muted state stops all scheduling; hovering muted elements produces nothing.
+All audio is synthesized with the Web Audio API. No audio files ship with the page.
+
+### Effects
+- `select` (square, ~660Hz, 40ms) on hover of links and buttons.
+- `confirm` (square, 660→990Hz, 90ms) on click.
+- `toggle` (square, 330Hz, 30ms) on the audio toggle.
+- Master gain 0.04; no oscillator is created until the AudioContext exists.
+
+### Background music
+- A procedural chiptune loop defined in `music.js`: 8 bars at 104 BPM (about 18.5s) over Am–F–C–G.
+- Voices: square-wave arpeggio lead through a low-pass filter, triangle bass on quarter notes, band-passed noise hats on the off-beats, and a sine kick on beats 1 and 3.
+- Scheduled with a 25ms lookahead timer against `AudioContext.currentTime`, so timing does not drift with main-thread load. A resync guard skips ahead if the timer is starved (for example after throttling).
+- Mixed through a dedicated music gain at 0.22, fading in over 1.2s and out over 0.35s. It sits below the effect blips so it stays in the background.
+- Restarts from the top of the loop on resume rather than resuming mid-phrase.
+
+### Control and lifecycle
+- One toggle controls effects and music together: `AUDIO: ON` / `AUDIO: OFF` with `aria-pressed`, persisted in `localStorage` under `ap.sound`.
+- Default enabled, but no AudioContext is created until the first gesture, so music begins on the first click or keypress — usually the boot screen's PRESS START.
+- The scheduler stops when the document is hidden and restarts when it becomes visible again; muting stops it immediately.
 - Sound never conveys information that isn't also visible.
 
 ---
@@ -237,7 +250,7 @@ Section headings are real `h2` elements; the `01 ·` prefix is inside a `<span a
 | Item | Budget | Measured |
 |---|---|---|
 | Own CSS (uncompressed) | < 16 KB | 14.8 KB (3.4 KB gzip) |
-| Own JS (uncompressed, excluding three) | < 8 KB each | 5.2 KB starfield, 4.3 KB ui |
+| Own JS (uncompressed, excluding three) | < 8 KB each | 5.2 KB starfield, 4.3 KB ui, 5.0 KB music |
 | Fonts total | < 70 KB | 28 KB woff2 |
 | three.js | lazy, must not block LCP | 195 KB gzip, deferred to idle |
 | LCP (4G, mobile) | < 1.8s | 1.5s |
